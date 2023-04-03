@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,11 +8,11 @@
     <title>Document</title>
 </head>
 
-<body>
-    <h1>Welcome to Profile Page</h1>
-    <h2 id="name">Your Full Name is:</h2>
-    <img id="image"/>
-    <button onclick="logout()">Logout</button>
+<body onclick="check()">
+<!--    <h1>Welcome to Profile Page</h1>
+    <h2 id="name">Your Full Name is:</h2>-->
+    <img id="gmailImage"/>
+    
 </body>
 <script>
     // Parse query string to see if page request is coming from OAuth 2.0 server.
@@ -38,9 +38,10 @@
                 }
             })
             .then((data) => {
-                location.href = "http://localhost:5500/index.html"
+                location.href = "http://lancehub.j.layershift.co.uk"
             })
     }
+   
 </script>
 <script>
 fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -51,7 +52,18 @@ fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
         .then(data => data.json())
         .then((info) => {
             console.log(info)
-            document.getElementById('name').innerHTML += info.name
-            document.getElementById('image').setAttribute('src',info.picture)
+ //   document.getElementById('name').innerHTML += info.email
+            
+           // document.getElementById('name').innerHTML += info.email
+           // window.location.href="/WebApplication7/profile.jsp";
+           
+           window.location.href="http://lancehub.j.layershift.co.uk/profile.jsp?email="+info.email;
+          //  document.getElementById('gmailImage').setAttribute('src',info.picture)
+          
         })
+        
+        
+       
+        
+    
         </script>

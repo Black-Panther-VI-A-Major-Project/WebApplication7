@@ -159,7 +159,7 @@
                         {
                             //get response from server
                             var r = xhr.responseText.trim();
-                            alert("result=" +r);
+//                            alert("result=" +r);
                              if(r=="error")
                         {
                           alert("Freelancer alredy exists");
@@ -167,9 +167,11 @@
                         }
                         else if(r=="success")
                         {
-                             alert("Signup Successfull");
+//                             alert("Signup Successfull");
                               document.getElementById("error").style.color="green";
                         document.getElementById("l1").innerHTML="Signup Succesful";
+                         var element = document.getElementById(" form1 ");
+                          element.reset();
                          
                              
                         }
@@ -178,7 +180,7 @@
                     
                     xhr.open("POST", "./freelancer_signup_servlet", true);
                     
-                    alert("Sending Request to Server");
+//                    alert("Sending Request to Server");
                     
                     //console.log(formdata);
                     
