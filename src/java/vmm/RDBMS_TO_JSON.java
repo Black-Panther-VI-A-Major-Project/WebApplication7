@@ -58,6 +58,6 @@ public class RDBMS_TO_JSON
 
     public static void main(String[] args) 
     {
-        System.out.println(new RDBMS_TO_JSON().generateJSON("select * from EMP"));
+        System.out.println(new RDBMS_TO_JSON().generateJSON("select * from lance_hubb"));
     }
 }

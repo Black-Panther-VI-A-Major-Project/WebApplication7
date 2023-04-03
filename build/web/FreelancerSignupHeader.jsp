@@ -62,8 +62,8 @@
         Freelancer
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item"  href="customer_signup.jsp">Freelancer Signup</a>
-        <a class="dropdown-item" href="customer_login.jsp">Freelancer Login</a>
+        <a class="dropdown-item"  href="FreelancerSignup.jsp">Freelancer Signup</a>
+        <a class="dropdown-item" href="FreelancerLogin.jsp">Freelancer Login</a>
         
       </div>
     </li>
@@ -79,7 +79,7 @@
   <br>
   
       <div>
-      <img src="images/qwerty.jpg" width="100%"  class="img-fluid rounded-circle" />
+      <img src="images/desk-1284085.jpg" width="100%"  class="img-fluid rounded-circle" />
       </div>
     
 <script src="js/jquery.min.js"></script>

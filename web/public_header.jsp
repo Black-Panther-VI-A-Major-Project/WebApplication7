@@ -92,7 +92,7 @@
   <br>
   
       <div>
-      <img src="images/qwerty.jpg" width="100%"  class="img-fluid rounded-circle" />
+      <img src="images/campaign-creators-gMsnXqILjp4-unsplash.jpg" width="100%"  class="img-fluid rounded-circle" />
       </div>
     
 <script src="js/jquery.min.js"></script>
