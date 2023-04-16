@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServlet;
 
 
-public class view_client_profile extends HttpServlet
+
+public class average_rating extends HttpServlet
 {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        final HttpSession session = request.getSession();
-        final String remail = session.getAttribute("emailid1").toString();
-        System.out.println(remail);
+//        final HttpSession session = request.getSession();
+        String projectid = request.getParameter("us1");
         response.setContentType("text/html");
-        final PrintWriter out = response.getWriter();
-        final String ans = new RDBMS_TO_JSON().generateJSON("select * from client_profile where emailid='" + remail + "'");
+         PrintWriter out = response.getWriter();
+       String ans = new RDBMS_TO_JSON().generateJSON("select * from riview where emailid='" + projectid + "'");
         out.print(ans);
     }
 }
