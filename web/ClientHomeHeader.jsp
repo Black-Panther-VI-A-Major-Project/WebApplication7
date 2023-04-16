@@ -70,7 +70,9 @@
     </li>
     <li class="nav-item active"><a style="cursor:pointer;" href="ClientProfileEdit.jsp" class="nav-link">Edit Profile</a></li>
     <li class="nav-item active"><a href="CreateProjects.jsp" class="nav-link">Create Tickets</a></li>
-    <li class="nav-item active"><a href="ClientSendEmail.jsp" class="nav-link">Create Tickets</a></li>
+    <li class="nav-item active"><a href="ClientSendEmail.jsp" class="nav-link">Invite</a></li>
+        <li class="nav-item active"><a style="cursor:pointer;" href="ClientChat.jsp" class="nav-link">Messages</a></li>
+
     <li class="nav-item active"><a onclick="gmailTokenRevoke()" style="cursor:pointer;" class="nav-link">Logout</a></li>
     
     

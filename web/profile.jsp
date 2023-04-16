@@ -24,6 +24,7 @@
         
       url=url.toString();
       url=url.substring(53);
+//      alert(url);
 
       
       var xhttp = new XMLHttpRequest();

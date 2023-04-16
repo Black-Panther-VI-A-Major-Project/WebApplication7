@@ -11,6 +11,7 @@ function signIn(){
   var params = {'client_id': "1097218889616-46in8telmo7jf19p7b06ach70so64nrk.apps.googleusercontent.com",
               'redirect_uri': "http://lancehub.j.layershift.co.uk/profile.html",
     //            'redirect_uri': "http://localhost:8080/WebApplication7/profile.html",
+    
                 'response_type': 'token',
               'scope':'https://www.googleapis.com/auth/userinfo.email',
                 'include_granted_scopes': 'true',

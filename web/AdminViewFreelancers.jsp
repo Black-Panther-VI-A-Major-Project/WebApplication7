@@ -53,6 +53,10 @@
                             ans = ans + "<td>" + "Address" + "</td>";
                             
                             ans = ans + "<td>" + "Mobile" + "</td>";
+                            
+                            
+                            
+                            ans = ans + "<td>" + "Approve" + "</td>";
                             ans = ans + "<td>" + "Block" + "</td>";
                              ans = ans + "<td>" + "Audit" + "</td>";
                             ans = ans + "</tr>";
@@ -67,7 +71,8 @@
                                 ans = ans + "<td>"+ singleobj["mobile"] +"</td>";
                              
                                
-                                
+                ans = ans + "<td>"+"<input type=\"button\" value=\"Approve\" onclick=\"approve('"+singleobj["emailid"]+"')\"/>"+"</td>";
+
                                 ans = ans + "<td>"+"<input type=\"button\" value=\"Block\" onclick=\"cancel('"+singleobj["emailid"]+"')\"/>"+"</td>";
                                 ans = ans + "<td>"+"<input type=\"button\" value=\"Audit\" onclick=\"auditUser('"+singleobj["emailid"]+"')\"/>"+"</td>";
 
@@ -178,6 +183,42 @@
                 xhttp.send();
     
             }
+            
+                function approve(index)
+            {
+               
+                var xhttp = new XMLHttpRequest();
+               
+               
+                xhttp.onreadystatechange = function() 
+                {
+                    if (this.readyState == 4 && this.status == 200) 
+                    {
+                        
+                        var r1 = xhttp.responseText.trim();
+                        
+                        if(r1=="success")
+                        {
+                         alert(r1);
+                         view();   
+                        }
+                        else if(r1=="error")
+                        {
+                            
+                         alert(r);   
+                        }
+                        
+                        
+                    }
+                };
+                
+              
+                xhttp.open("GET", "./freelancer_approve_servlet?bid2="+index, true);    
+                
+               
+                xhttp.send();
+            }
+        
             
             
             function cancel(index)

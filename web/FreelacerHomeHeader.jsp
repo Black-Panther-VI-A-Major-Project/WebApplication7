@@ -83,6 +83,9 @@
     </li>
     <li class="nav-item active"><a style="cursor:pointer;" href="FreelancerHome.jsp" class="nav-link">Home</a></li>
     <li class="nav-item active"><a style="cursor:pointer;" href="FreelancerProfileEdit.jsp" class="nav-link">Edit Profile</a></li>
+    <li class="nav-item active"><a style="cursor:pointer;" href="freelancerchat.jsp" class="nav-link">Messages</a></li>
+        <li class="nav-item active"><a href="FreelancerSendEmail.jsp" class="nav-link">Invite</a></li>
+
     <li class="nav-item active"><a style="cursor:pointer;" onclick="gmailTokenRevoke1()" class="nav-link">Logout</a></li>
    
     

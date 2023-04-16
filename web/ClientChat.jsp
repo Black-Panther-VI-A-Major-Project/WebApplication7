@@ -18,20 +18,39 @@
             }
             #d1{
                display:inline-block;
-               margin-left:0px;
+               margin-left:35px;
                margin-right: 0px;
                flex:5;
-               min-width:1100px;
+               
+               
+               min-width:1095px;
+               height:550px;
+               border:solid white 1px;
+               padding: 20px;
+               background-image:url("images/chatbackground4.jpg");
+               display: none;
+               position:relative;
+               top:0px;
+               right:10px;
+               left:395px;
+               bottom:50px;
+/*               background-size:600px 900px;*/
+               
 /*                flex:4;
                 background-color: blue;*/
             }
             #d22{
-                min-width:350px;
+                position: fixed;
+                left:10px;
+                width:400px;
                 flex:2;
                  margin-left:0px;
                margin-right: 0px;
 /*                background-color: brown;*/
             }
+/*            .table-hover{
+                color:grey;
+            }*/
         </style>
 <!--        <style>
             #main-container{
@@ -91,18 +110,65 @@
   <script src="js/main.js"></script>
   <script src="searchJobs.js"></script>
         <title>Customer Home</title>
+        <style>
+            #MessageText{
+                width:1000px;
+                height:50px;
+                position:fixed;
+                bottom:10px;
+                right:100px;
+                
+                
+            }
+            #send-button{
+               width:90px;
+                height:50px;
+                position:fixed;
+                bottom:10px;
+                right:10px; 
+                background-color:grey
+                    
+            }
+            #left-messages{
+                padding:3px;
+          
+/*                  position:absolute;*/
+/*                float:right;*/
+                right:5px;
+                color: black;
+/*                align-self:end;*/
+                text-align: end;
+/*                display:flex;*/
+                
+             
+               
+                width: 500px;
+/*display:inline;*/
+                background-color:#99FF99;
+                margin-left: 500px;
+                border-radius: 18px;
+            }
+            #right-messages{
+/*                 display:flex;
+                 flex-direction: row-reverse;*/
+                 padding:3px;
+                 color: black;
+                text-align: left;
+/*                  float:left;*/
+                  width: 500px;
+                background-color:#FFCCFF;
+                  border-radius: 18px;
+/*                  display:inline;*/
+            }
+            </style>
     </head>
-    <body onload="Freelancerdata(),getProfile()">
-            <jsp:include page="FreelacerHomeHeader.jsp" />
-            <img id="photo">
-   <br>
-   <br>
-   <div>
-        <h1 style="color: white"> Welcome <%= session.getAttribute("freelancerEmail") %>   </h1>
+    <body onload="getFreelancers()">
+     <jsp:include page="ClientHomeHeader.jsp" />
       
-       </div>
-       <br>
-   <br>
+<!--   <div>
+-->        <div id="headeremail" style="color: white; display:none; position:fixed; top: 0px;"><%= session.getAttribute("emailid1") %>   </div><!--
+      
+ 
 
 <!--   <div id="main-container" >
   <div id="d1"></div>
@@ -115,18 +181,24 @@
   </div>
 </div>-->
           <div id="main-container" >
-  
-<div id="inner-container">
- <div id="d1"></div>
-
-  </div>
-             <div style="display:block;">
-             <div id="profilephoto"></div>
+                        <div style="display:block;">
+<!--             <div id="profilephoto"></div>-->
   <div id="d22"></div>
 </div>   
+  
+<div id="inner-container">
+    <div id="d1"></div>
+
+ <div id="sendmessage" style="display:none;">
+<textarea id="MessageText" name="MessageText" rows="5" cols="10"></textarea>
+<input id="send-button"  type="button" value="send" onclick="sendMessage()">
+ </div>
+  </div>
+              
+   
          </div>
                     
-                         <jsp:include page="footer.jsp" />
+                        
                          <div id="searchJobsByUsernameModal"  class="modal fade" role="dialog" >
                         <div class="modal-dialog" >
 
@@ -266,15 +338,15 @@
                         </div>
                     </div>
                         
-                         <div class="modal" id="myModal14" >
+<!--                         <div class="modal" id="myModal14" >
                 <div class="modal-dialog">
 
-                    <!-- Modal content-->
+                     Modal content
                     <div class="modal-content">
                         <div class="modal-header " style="background: yellowgreen;" >
                             <h4 class="modal-title" style="color: white; justify-content:left;"> Add Review</h4>
                             <button type="button" style="justify-content:right;" class="close" data-dismiss="modal">&times;</button>
-<!--                            <h4 class="modal-title" style="color: white; justify-content:left;"> Add Review</h4>-->
+                            <h4 class="modal-title" style="color: white; justify-content:left;"> Add Review</h4>
                         </div>
                         <div class="modal-body " >
                             <div>
@@ -313,7 +385,7 @@
                              
                             </div>   
                         </div>
-                            <!--</div>-->
+                            </div>
                             <div class="modal-footer " style="background: yellowgreen;" >
                                 <button type="button" class="btn btn-default" style="border-radius: 10px; background-color: white;" data-dismiss="modal" style="" >Close</button>
                             </div>
@@ -321,37 +393,40 @@
 
                     </div>
                 </div>
-            </div>
+            </div>-->
     </body>
     <script>
-        var params = {};
-    var regex = /([^&=]+)=([^&]*)/g, m;
-    while (m = regex.exec(location.href)) {
-        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-    }
-    if (Object.keys(params).length > 0) {
-        localStorage.setItem('authInfo', JSON.stringify(params));
-    }
-    window.history.pushState({}, document.title, "/" + "profile.html");
-    let info = JSON.parse(localStorage.getItem('authInfo'))
-    console.log(info['access_token'])
-    console.log(info['expires_in'])
-    
-    function gmailTokenRevoke1() {
-        fetch("https://oauth2.googleapis.com/revoke?token=" + info.access_token,
-            {
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/x-www-form-urlencoded"
-                }
-            })
-            .then((data) => {
-                location.href = "http://lancehub.j.layershift.co.uk"
-            })
-    }
+//        var params = {};
+//    var regex = /([^&=]+)=([^&]*)/g, m;
+//    while (m = regex.exec(location.href)) {
+//        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+//    }
+//    if (Object.keys(params).length > 0) {
+//        localStorage.setItem('authInfo', JSON.stringify(params));
+//    }
+//    window.history.pushState({}, document.title, "/" + "profile.html");
+//    let info = JSON.parse(localStorage.getItem('authInfo'))
+//    console.log(info['access_token'])
+//    console.log(info['expires_in'])
+//    
+//    function gmailTokenRevoke1() {
+//        fetch("https://oauth2.googleapis.com/revoke?token=" + info.access_token,
+//            {
+//                method: 'POST',
+//                headers: {
+//                    "Content-type": "application/x-www-form-urlencoded"
+//                }
+//            })
+//            .then((data) => {
+//                location.href = "http://lancehub.j.layershift.co.uk"
+//            })
+//    }
     </script>
+<!--  let guyEmail=<%= session.getAttribute("emaiid1") %>;-->
     <script>
           let n=0;
+          let guyEmail=document.getElementById("headeremail").innerHTML.trim();
+          let sendreciever="";
         let useremail="";
         let avgrating="";
         var tableheadflag="";
@@ -361,68 +436,295 @@
               
           profilephoto=document.getElementById("profilephoto");
        
-        function Freelancerdata()
-        {
-            
-          {
-                var xhttp = new XMLHttpRequest();
+//        function Freelancerdata()
+//        {
+//            
+//          {
+//                var xhttp = new XMLHttpRequest();
+//               
+//               
+//                xhttp.onreadystatechange = function() 
+//                {
+//                    if (this.readyState == 4 && this.status == 200) 
+//                    {
+//                         // JSON as String 
+//                         var res = xhttp.responseText.trim();
+//                         
+//                         console.log(res);
+//                         
+//                         //  Remove ""
+//                         var mainobj = JSON.parse(res);
+//                         
+//                         console.log(mainobj);
+//                         
+//                         // Extract ans[] from mainobj
+//                          arr = mainobj["ans"];
+//                         
+//                         console.log(arr);
+//                         
+//                         
+//                      
+//                         
+//                        for(var i=0;i<arr.length;i++)
+//                         {
+//                           
+//                         
+//                         for(var i=0;i<arr.length;i++)
+//                         {
+//                             var singleobj = arr[i];
+//                             
+//                            
+//                                ans = ans +  singleobj["emailid"];
+//                            
+//                               }
+//                               ans1=ans;
+//                               
+//                               
+//                           
+////                             loaddashboard(ans);
+//alert(ans);
+//                          
+//                            }
+//                         
+////                         document.getElementById("d1").innerHTML = ans;
+////                         
+//                    }
+//                };
+//                
+//                // Step 2
+//                xhttp.open("GET", "./view_freelacer_jobs1", true);    // true --> async request
+//                
+//                // Step 3
+//                xhttp.send();
+//            }  
+//            
+//        }
+
+function reloadMsg(){
+    let xy=setInterval(getMessages1,5000);
+ 
+}
+function sendMessage()
+   
+            {
+                let msg=document.getElementById("MessageText").value;
+       
+               
+               var xhttp = new XMLHttpRequest();
                
                
                 xhttp.onreadystatechange = function() 
                 {
                     if (this.readyState == 4 && this.status == 200) 
                     {
-                         // JSON as String 
-                         var res = xhttp.responseText.trim();
+                        var res=xhttp.responseText.trim();
+                         getMessages(sendreciever);
+                         document.getElementById("MessageText").value="";
                          
-                         console.log(res);
+                    }
+                };
+                
+                
+                xhttp.open("GET", "./send_message?msg="+msg+"&user="+sendreciever+"&user1="+guyEmail, true);    
+//                send_message?msg="+msg+"&user="+sendreciever
+              
+                xhttp.send();
+             
+           
+                
+    }    
+
+            
+            
+  function getFreelancers()
+            {
+                 var xhttp = new XMLHttpRequest();
+
+
+                xhttp.onreadystatechange = function ()
+                {
+                    if (this.readyState == 4 && this.status == 200)
+                    {
+                       
+                       var res=xhttp.responseText.trim();
+//                       alert(res);
+//                         console.log(res);
+                         
                          
                          //  Remove ""
                          var mainobj = JSON.parse(res);
                          
-                         console.log(mainobj);
+//                         console.log(mainobj);
                          
                          // Extract ans[] from mainobj
-                          arr = mainobj["ans"];
+                          var arr = mainobj["ans"];
+                        
+//                         console.log(arr);
+                        
                          
-                         console.log(arr);
+                         var ans="";
                          
                          
-                      
-                         
-                        for(var i=0;i<arr.length;i++)
-                         {
-                           
-                         
-                         for(var i=0;i<arr.length;i++)
-                         {
-                             var singleobj = arr[i];
+                        for (var i = 0; i < arr.length; i++)
+                        {
+                            
+                            ans = ans + "<table  class=\"table  table-bordered\" style=\"color: white\">";
+                            
+                            
+                            for (var i = 0; i < arr.length; i++)
+                            {
+                                var singleobj = arr[i];
+                                  ans = ans + "<tr>";
+//                                   ans = ans + "<td>"+ singleobj["emailid"] +"</td>";
+                               ans = ans + "<td style=\"cursor:pointer;\" onclick=\"getMessages('"+singleobj["emailid"]+"')\">"+singleobj["fullname"]+"</td>";
+
+//    ans = ans + "<td onclick=\"getMessages('"+singleobj["fullname"]+"\"')>"+ singleobj["fullname"] +"</td>";
+//                                ans = ans + "<td>"+ singleobj["address"] +"</td>";
+//                                ans = ans + "<td>"+ singleobj["mobile"] +"</td>";
                              
-                            
-                                ans = ans +  singleobj["technologies"];
-                            
-                               }
-                               ans1=ans;
                                
-                               
-                           
-                             loaddashboard(ans);
-                          
+                                
+//                               ans = ans + "<td>"+"<input type=\"button\" value=\"Block\" onclick=\"cancel('"+singleobj["emailid"]+"')\"/>"+"</td>";
+//                                ans = ans + "<td>"+"<input type=\"button\" value=\"Audit\" onclick=\"auditUser('"+singleobj["emailid"]+"')\"/>"+"</td>";
+//
+//                            
+                                ans = ans + "</tr>";
                             }
+
+                            ans = ans + "</table>";
+                        }
                          
-//                         document.getElementById("d1").innerHTML = ans;
-//                         
+                        document.getElementById("d22").innerHTML = ans;
+                        
+                   
                     }
                 };
-                
+
                 // Step 2
-                xhttp.open("GET", "./view_freelacer_jobs1", true);    // true --> async request
-                
+                xhttp.open("GET", "./get_freelancers", true);    // true --> async request
+
                 // Step 3
                 xhttp.send();
-            }  
+            }
             
-        }
+             function getMessages(sendMesssageName)
+            {
+              sendreciever=sendMesssageName;
+              getMessages1();
+            }
+             function getMessages1()
+            {
+                
+                document.getElementById("d1").style.display="inline";
+                document.getElementById("sendmessage").style.display="inline";
+                
+//                alert(typeof(guyEmail));
+//                alert(sendMesssageName);
+
+                 var xhttp = new XMLHttpRequest();
+
+
+                xhttp.onreadystatechange = function ()
+                {
+                    if (this.readyState == 4 && this.status == 200)
+                    {
+                       
+                       var res=xhttp.responseText.trim();
+//                       alert(res);
+//                         console.log(res);
+                         
+                         
+                         //  Remove ""
+                         var mainobj = JSON.parse(res);
+                         
+//                         console.log(mainobj);
+                         
+                         // Extract ans[] from mainobj
+                          var arr = mainobj["ans"];
+                        
+//                         console.log(arr);
+                        
+                         
+                         var ans="";
+                         
+                         
+                        for (var i = 0; i < arr.length; i++)
+                        {
+                         singleobj=arr[i];
+//                         console.log(singleobj);
+                         if(guyEmail.match(singleobj["sender"]) &&sendreciever.match(singleobj["reciever"]) ){
+                           
+                       ans=ans+"<div><h4 id=\"left-messages\">"+singleobj["messages"]+"</h4></div>";
+                     
+                         }
+                         if(sendreciever.match(singleobj["sender"]) &&guyEmail.match(singleobj["reciever"]) ){
+//                          alert(singleobj["sender"]+","+singleobj["messages"]+" left");
+ 
+                        ans=ans+"<div><h4 id=\"right-messages\">"+singleobj["messages"]+"</h4></div>";
+                      
+                         }
+                         
+//                         alert(singleobj["reciever"]);
+//                         alert("singleobj="+singleobj);
+//                         if(singleobj["sender"].match(guyEmail)){
+//                             alert(singleobj["messages"]+"="+singleobj["sender"]+" right");
+//                         }
+//                         else if(singleobj["sender"].match(sendMesssageName) && singleobj["reciever"].match(guyEmail)){
+//                             alert(singleobj["messages"]+"="+singleobj["sender"]+" left");
+//                         }
+                            
+                        }
+                            
+//                            ans = ans + "<table style=\"margin-left:50px;\" class=\"table  table-bordered\" style=\"color: white\">";
+//                            ans = ans + "<tr> ";
+//
+//
+////                            ans = ans + "<td>" + "Email ID" + "</td>";
+////                            ans = ans + "<td>" + "Full Name" + "</td>";
+////                            ans = ans + "<td>" + "Address" + "</td>";
+////                            
+////                            ans = ans + "<td>" + "Mobile" + "</td>";
+////                            ans = ans + "<td>" + "Block" + "</td>";
+////                             ans = ans + "<td>" + "Audit" + "</td>";
+//                            ans = ans + "</tr>";
+//                            
+//                            for (var i = 0; i < arr.length; i++)
+//                            {
+//                                var singleobj = arr[i];
+//                                  ans = ans + "<tr>";
+////                                   ans = ans + "<td>"+ singleobj["emailid"] +"</td>";
+////                                ans = ans + "<td>"+ singleobj["fullname"] +"</td>";
+////                                ans = ans + "<td>"+ singleobj["address"] +"</td>";
+////                                ans = ans + "<td>"+ singleobj["mobile"] +"</td>";
+//                             
+//                               
+//                                
+////                                ans = ans + "<td>"+"<input type=\"button\" value=\"Block\" onclick=\"cancel('"+singleobj["emailid"]+"')\"/>"+"</td>";
+////                                ans = ans + "<td>"+"<input type=\"button\" value=\"Audit\" onclick=\"auditUser('"+singleobj["emailid"]+"')\"/>"+"</td>";
+////
+////                            
+//                                ans = ans + "</tr>";
+//                            }
+//
+//                            ans = ans + "</table>";
+//                        }
+//                        reload
+//                         
+                        document.getElementById("d1").innerHTML = ans;
+                        reloadMsg();
+//                        
+//                   
+                    }
+                };
+
+                // Step 2
+                xhttp.open("GET", "./get_messages", true);    // true --> async request
+
+                // Step 3
+                xhttp.send();
+            }
+
+
               function loaddashboard(pl){
           
 //                      alert(pl);
@@ -438,12 +740,12 @@
                         
                               var mainobj = JSON.parse(res);
                          
-                         console.log(mainobj);
+//                         console.log(mainobj);
                          
                          // Extract ans[] from mainobj
                           arr = mainobj["ans"];
                          
-                         console.log(arr);
+//                         console.log(arr);
                          
                          
                          var ans="";
@@ -454,7 +756,7 @@
 //                             ans = ans + "<td>"+ "Project Owner" +"</td>";
 //                             ans = ans + "<td>"+ "Project Name"+"</td>";
 //                             ans = ans + "<td>"+ "description" +"</td>";
-//                            
+//                     getFree       
 //                              ans = ans + "<td>"+ "Programming Languages" +"</td>";
 //                               ans = ans + "<td>"+ "Frameworks" +"</td>";
 //                              ans = ans + "<td>"+ "Time Frame" +"</td>";
@@ -491,7 +793,7 @@
                     // ans+="<div class=\"row\">";
                      ans+="<div style=\"display:inline-block;\"  class=\"col-sm-12 col-lg-6 col-md-12\">";
                      ans=ans+"<table class=\"table table-hover\">";
-                     ans=ans+"<tr style=\"background-image:url('images/freelancer-bg.avif'); background-size:600px 300px;\">";
+                     ans=ans+"<tr style=\"background-image:url('images/38121.jpg'); background-size:600px 300px;\">";
 //                         ans = ans+"<td width=\"20%\"><img src=\""+ singleobj["photo"] +"\" width='110' height='100' /></td>";
                        
                         ans=ans+"<td width=\"50%\"><h2>"+singleobj["projectname"]+"</h2> <br> <h5>"+singleobj["emailid"]+"</h5> <br> <h5>"+singleobj["projecttechnologies"]+"</h5> <br> <h5>"+singleobj["timeframe"]+"</h5></td>";
@@ -647,18 +949,18 @@
                        
                        var res=xhttp.responseText.trim();
                        
-                         console.log(res);
+//                         console.log(res);
 //                         alert("result="+res);
                          
                          //  Remove ""
                          var mainobj = JSON.parse(res);
                          
-                         console.log(mainobj);
+//                         console.log(mainobj);
                          
                          // Extract ans[] from mainobj
                           var arr = mainobj["ans"];
                         
-                         console.log(arr);
+//                         console.log(arr);
                         
                          
                          var ans="";
@@ -712,8 +1014,8 @@
                              
                              document.getElementById("d22").innerHTML=ans;
 
-//********************
 
+//********************
                          
                                ans = ans +"</table>";
                                

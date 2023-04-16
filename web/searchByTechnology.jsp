@@ -313,6 +313,8 @@
 //    }
     </script>
     <script>
+        var projectid="";
+            let n=0;
         let searchText=document.getElementById("search-box");
         searchText.addEventListener('keyup',filter);
         searchText.addEventListener('keydown',noFilter);
@@ -680,7 +682,7 @@
                          ans+="<td width=\"40%\"> <h4>Description</h4><h5>"+singleobj["discreption"]+"</h5></td>";
                         //  ans = ans+"<td>"+"<img src=\""+ singleobj["photo_cover"] +"\" width='100' height='100' />"+"</td>";
                         //   ans = ans+"<td>"+"<img src=\""+ singleobj["photo_profile"] +"\" width='100' height='100' />"+"</td>";
-                          ans=ans+"<td width=\"10%\">"+"<input type=\"button\" value=\"Offer\" class=\"btn-outline-primary2\" onclick=\"updateCart("+singleobj["food_item_id"]+")\"/>"+"</td>";
+                  ans=ans+"<td width=\"10%\">"+"<input type=\"button\" value=\"Rating\" class=\"btn-outline-primary2\" onclick=\"rating('"+singleobj["emailid"]+"')\"/>"+"</td>";         
                         ans=ans+"</tr>";
                         ans=ans+"</table>";
 
@@ -710,6 +712,234 @@
                 xhttp.send();
             }
             
+            function rating(pid1)
+            {
+                
+//                alert(pid);
+                
+                useremail=pid1;
+                $('#myModal14').modal('show');
+            }
+            
+               function fill(obj)
+        {
+//            alert("fill"+obj);
+            var img = obj.src;
+            var id = obj.id;
+            var val = parseInt(id.substring(id.indexOf("_") + 1));
+            var i;
+            if (n === 0)
+            {
+                i = 1;
+            } else
+            {
+                i = n + 1;
+            }
+            for (; i <= 5; i++)
+            {
+                if (i <= val)
+                {
+                    document.getElementById("rating_" + i).src = "rating/filled_star.png";
+
+                } else
+                {
+                    document.getElementById("rating_" + i).src = "rating/empty_star.png";
+                }
+            }
+
+        }
+        function selected(obj)
+        {
+            var id = obj.id;
+            var val = parseInt(id.substring(id.indexOf("_") + 1));
+            n = val;
+        }
+        function unfill(obj)
+        {
+//            alert("unfill"+obj);
+            var i;
+            if (n === 0)
+            {
+                i = 1;
+            } else
+            {
+                i = n + 1;
+            }
+            for (; i <= 5; i++)
+            {
+                document.getElementById("rating_" + i).src = "rating/empty_star.png";
+            }
+        }
+        
+            
+      function goo()
+        {
+            var comment=document.getElementById("comment").value;
+            //alert(comment+"  "+n);
+            if(n==0){
+                alert("please add review");
+                
+            }
+            else{
+                 var xhttp = new XMLHttpRequest();
+                  
+               // Callback method
+               // This method is called when server gives answer
+                xhttp.onreadystatechange = function() 
+                {
+                    if (this.readyState == 4 && this.status == 200) 
+                    {
+                        
+                        var r=xhttp.responseText.trim();
+//                    alert(r);
+//                        alert("length="+r.length);
+                        if(r.length<11)
+                        {
+                           goo1();
+                           
+                        }
+                       else
+                       {
+//                           console.log(r);
+//                         alert("result="+res);
+                         
+                         //  Remove ""
+                         var mainobj = JSON.parse(r);
+                         
+//                         console.log(mainobj);
+                         
+                         // Extract ans[] from mainobj
+                          var arr = mainobj["ans"];
+                        
+//                         console.log(arr);
+                          singleobj=arr[0];
+                          let previousrating=parseInt(singleobj["rating"]);
+                          
+//                         alert(previousrating);
+              n= ((previousrating+parseFloat(n))/2).toString();
+//                alert("n"+n);
+//                     alert("n="+n);
+//                alert("x="+x);
+               goo1();
+                         
+                       }
+              
+                    }
+                };
+             
+               xhttp.open("GET","./average_rating?rating="+n+"&comment="+comment+"&us1="+useremail,true);
+                // Step 2
+                    // true --> async request
+                
+                // Step 3
+                xhttp.send();
+        }
+                
+              
+            
+            
+        }
+           function goo1()
+        {
+            var comment=document.getElementById("comment").value;
+            //alert(comment+"  "+n);
+            if(n==0){
+                alert("please add review");
+                
+            }
+            else{
+                 var xhttp = new XMLHttpRequest();
+                  
+               // Callback method
+               // This method is called when server gives answer
+                xhttp.onreadystatechange = function() 
+                {
+                    if (this.readyState == 4 && this.status == 200) 
+                    {
+                        
+                        var r=xhttp.responseText.trim();
+                        //alert(r);
+                        
+                        if(r=="success")
+                        {
+                           alert("review added");
+                           window.location.href="FreelancerHome.jsp";
+                        }
+               
+              
+                    }
+                };
+                
+               xhttp.open("GET","./Add_Review?rating="+n+"&comment="+comment+"&us="+useremail,true);
+                // Step 2
+                    // true --> async request
+                
+                // Step 3
+                xhttp.send();
+        }
+                
+              
+            
+            
+        }
+            
            
         </script>
+        
+        <div class="modal" id="myModal14" >
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header " style="background: yellowgreen;" >
+                            <h4 class="modal-title" style="color: white; justify-content:left;"> Add Review</h4>
+                            <button type="button" style="justify-content:right;" class="close" data-dismiss="modal">&times;</button>
+<!--                            <h4 class="modal-title" style="color: white; justify-content:left;"> Add Review</h4>-->
+                        </div>
+                        <div class="modal-body " >
+                            <div>
+
+
+
+                                <div id="all">
+
+                                    <form action="" method="post" id="form14">
+                                        <table>
+                                            <tr> <label class="form-group"> Give Ratings..</label>
+                                            <td>
+                                                <img id="rating_1" src="rating/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;">
+                                            </td>
+                                            <td>
+                                                <img id="rating_2" src="rating/empty_star.png" onmouseover="fill(this)" onmouseout="unfill(this)" onclick="selected(this)" width="50px;" height="50px;">
+                                            </td>
+                                            <td>
+                                                <img id="rating_3" src="rating/empty_star.png" onmouseover="fill(this)" onmouseout="unfill(this)" onclick="selected(this)" width="50px;" height="50px;">
+                                            </td>
+                                            <td>
+                                                <img id="rating_4" src="rating/empty_star.png" onmouseover="fill(this)" onmouseout="unfill(this)" onclick="selected(this)" width="50px;" height="50px;">
+                                            </td>
+                                            <td>
+                                                <img  id="rating_5" src="rating/empty_star.png" onmouseover="fill(this)" onmouseout="unfill(this)" onclick="selected(this)" width="50px;" height="50px;">
+                                            </td>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                        <label> Write Comment : </label> <input style="border-radius: 20px;" type="text" id="comment"  class="form-group"/>
+                                        <input type="button" value="Submit" class="btn btn-primary" style="border-radius: 10px;" onclick="goo()"/>
+                                        <label style="display: none;color: tomato;" id="label1">Please Select Any Rating</label>
+
+                                    </form>
+                                </div>
+                             
+                            </div>   
+                        </div>
+                            <!--</div>-->
+                            <div class="modal-footer " style="background: yellowgreen;" >
+                                <button type="button" class="btn btn-default" style="border-radius: 10px; background-color: white;" data-dismiss="modal" style="" >Close</button>
+                            </div>
+                        
+
+                    </div>
+                </div>
+            </div>
 </html>

@@ -17,6 +17,64 @@
                 let be="";
             function exitingData(){
                document.getElementById("email").value="<%= session.getAttribute("emailid1") %>";
+               var emailidclient1=document.getElementById("email").value;
+               
+               {
+//                   alert(emailidclient1);
+//                alert(pid);
+//                 projectid=pid;
+               
+                var xhttp = new XMLHttpRequest();
+          
+                xhttp.onreadystatechange = function() 
+                {
+                    if (this.readyState == 4 && this.status == 200) 
+                    {
+////                     
+                          var res=xhttp.responseText.trim();
+                       
+                       
+                         
+                         
+                         //  Remove ""
+                         var mainobj = JSON.parse(res);
+                         
+                        
+                         
+                         // Extract ans[] from mainobj
+                          var arr = mainobj["ans"];
+                        
+                        
+                        
+                         
+                         var ans="";
+                        
+                          
+                            for (var i = 0; i < arr.length; i++)
+                            {
+                                var singleobj = arr[i];
+                                  
+                                  document.getElementById("clientfullname").value=singleobj["fullname"];
+                                  document.getElementById("mob").value=singleobj["mobile"]; 
+                                  document.getElementById("address").value=singleobj["address"]; 
+                                  
+                            }
+
+                          
+                         
+//                        document.getElementById("d12").innerHTML = ans;
+                        
+            
+                    }
+                };
+                
+                 
+                xhttp.open("GET", "./view_client_data?pre="+emailidclient1, true);    
+                
+               
+                xhttp.send();
+                
+            }
             }
             
             function editClientProfile()
@@ -220,9 +278,12 @@
 //                             alert("Signup Successfull");
                               document.getElementById("error").style.color="green";
                         document.getElementById("l1").innerHTML="Edit Succesful";
-                        document.getElementById("mob").value="";
-                        document.getElementById("clientfullname").value="";
-                        document.getElementById("address").value="";
+                        alert("Edit Successfull");
+                        window.location.href="ClientHome.jsp";
+                        
+//                        document.getElementById("mob").value="";
+//                        document.getElementById("clientfullname").value="";
+//                        document.getElementById("address").value="";
 //                          var element = document.getElementById(" form1 ");
 //                          element.reset();
                              

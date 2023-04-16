@@ -171,6 +171,7 @@
                               document.getElementById("error").style.color="green";
                         document.getElementById("l1").innerHTML="Signup Succesful";
                          var element = document.getElementById(" form1 ");
+                         alert("Signup Successfull");
                           element.reset();
                          
                              

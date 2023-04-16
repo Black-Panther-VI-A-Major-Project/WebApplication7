@@ -16,7 +16,19 @@
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <title>Create Tickets</title>
         <script>
-           function CreateProject()
+    
+    function CreateProject()
+        
+    {
+        let datecheck=document.getElementById("timeframe").value;
+        
+        let token = datecheck.split("-");
+        
+        if(token[0]>2025||token[0]<2023)
+        {
+          alert("Incorrect Date Format");  
+        }
+       else
         {
          var ans = "";
                 var formdata = new FormData();
@@ -77,7 +89,7 @@
                              alert("Project Created Successfully");
                              
 //                             $('#myModal1').modal('hide');
-                             window.location.href="ClientHome.jsp";
+                             window.location.href="ClientHome.jsp"; 
                         }
                     }
                     };
@@ -92,6 +104,7 @@
                     xhr.send(formdata);
 //                    alert("Form Data Sent");
                 }
+            }
                  }
             </script>
     </head>
