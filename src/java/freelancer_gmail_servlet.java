@@ -31,7 +31,7 @@ public class freelancer_gmail_servlet extends HttpServlet
                 ResultSet rs = DBLoader.executeQuery("select * from customer_signup where emailid='"+username+"'");
                 
                
-//                 HttpSession session = request.getSession();
+                 HttpSession session = request.getSession();
                 if(rs.next())    // Login Successfull
                 {    
 //                    String mob=rs.getString("mobile");
@@ -47,7 +47,7 @@ public class freelancer_gmail_servlet extends HttpServlet
 //                    out.println("pending");
 
 //                    }
-                    
+                     session.setAttribute("freelancerEmail", username);
                     out.println("success");
                       
                      

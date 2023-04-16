@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 import vmm.*;
 
 @MultipartConfig
-public class freelancer_status_servlet extends HttpServlet 
+public class freelancer_approve_servlet extends HttpServlet 
 {
 
     @Override
@@ -24,7 +24,7 @@ public class freelancer_status_servlet extends HttpServlet
         
           
            String remail = request.getParameter("bid2");
-           String status = "block";
+           String status = "approve";
             
      
           ResultSet rs = DBLoader.executeQuery("select * from customer_signup where emailid='"+remail+"'");

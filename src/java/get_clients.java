@@ -4,7 +4,7 @@ import javax.servlet.http.*;
 import vmm.RDBMS_TO_JSON;
 
 
-public class view_freelancer_profile extends HttpServlet
+public class get_clients extends HttpServlet
 {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -13,8 +13,7 @@ public class view_freelancer_profile extends HttpServlet
       
                  HttpSession session = request.getSession();
               
-                String remail=    (session.getAttribute("freelancerEmail")).toString();
-                System.out.println(remail);
+              //  String emailid=    (session.getAttribute("freelancerEmail")).toString();
 //        int id=Integer.parseInt(request.getParameter("id"));
         // Step 1
         response.setContentType("text/html");
@@ -22,7 +21,7 @@ public class view_freelancer_profile extends HttpServlet
         //Step 2
         PrintWriter out = response.getWriter();
         
-        String ans = new RDBMS_TO_JSON().generateJSON("select * from freelancer_profile where emailid='"+remail+"'");
+        String ans = new RDBMS_TO_JSON().generateJSON("select * from client_profile");
         
 //        where restaurant_id1='"+id+"'"
         out.print(ans);

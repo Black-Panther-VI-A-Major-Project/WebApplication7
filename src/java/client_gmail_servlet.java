@@ -31,13 +31,13 @@ public class client_gmail_servlet extends HttpServlet
                 ResultSet rs = DBLoader.executeQuery("select * from client_signup where emailid='"+username+"'");
                 
                
-//                 HttpSession session = request.getSession();
+                 HttpSession session = request.getSession();
                 if(rs.next())    // Login Successfull
                 {    
 //                    String mob=rs.getString("mobile");
 //                    
 //                     String otp2=rs.getString("otp");
-//                     session.setAttribute("email1", username);
+                     session.setAttribute("emailid1", username);
 //                     session.setAttribute("otp", otp2);
 //                    String status=rs.getString("status");
 //                    System.out.println(status);

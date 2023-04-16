@@ -48,6 +48,9 @@ public class client_profile_edit extends HttpServlet
              
            
               rsAudit.insertRow();
+             
+                
+             
                 out.println("success");
             }
             else {
